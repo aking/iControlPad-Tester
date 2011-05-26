@@ -13,7 +13,6 @@
 
 @interface VirtualControlPad : iControlPadReaderView 
 {
-    
 }
 
 @end

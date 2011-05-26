@@ -19,15 +19,18 @@
 #define BUTTON_X        9
 #define BUTTON_L        10
 #define BUTTON_R        11
+#define NUB_LEFT        12
+#define NUB_RIGHT       13
 
-#define MIN_BUTTON      0
-#define MAX_BUTTON      11
+#define BUTTON_0         0
+#define BUTTON_COUNT    14
 
 @interface ButtonStates : NSObject 
 {
     
 }
 
++ (void) reset;
 + (int) getState:(int)button;
 + (void) setState:(int)button value:(int)value;
 + (void) handle:(char)c;

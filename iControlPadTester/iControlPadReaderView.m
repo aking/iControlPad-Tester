@@ -15,6 +15,8 @@
     self = [super initWithFrame:frame];
     inputView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
     
+    [ButtonStates reset];
+
     return self;
 }
 
@@ -24,16 +26,12 @@
 }
 
 // FIX ME: Is this necessary?
+/*
 -(void) touchesBegan: (NSSet *) touches withEvent: (UIEvent *) event 
 {
     [self becomeFirstResponder];
 } 
-
-- (void) drawRect:(CGRect)rect 
-{
-    // This space intentionally left blank. Woot.
-}
-
+*/
 - (UIView*) inputView
 {
     return inputView;
