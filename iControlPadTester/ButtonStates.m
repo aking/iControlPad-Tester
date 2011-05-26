@@ -42,7 +42,7 @@ static int pos = 0;
 
 BOOL areValidNubValues(char* _vals)
 {
-    for(int i=0; i<2; i++)
+    for(int i=0; i<4; i++)
         if(_vals[i] < 0 || _vals[i] > 96)
             return NO;
     
@@ -60,32 +60,28 @@ BOOL areValidNubValues(char* _vals)
     if(pos > 4 && buffer[0] == 'w')
     {
         // validate that the next 4 values are 'valid'.  If not, skip over
-        // till the next known marker (ie: 'm', 'w')
+        // till the next known marker (ie: 'm', 'w').  Note: we can't really
+        // test the first two values (for left nub), then the next two values
+        // (for the right nub) as I was originally doing as a left nub value 
+        // might have dropped and it'd end up with a value from each nub - bad
 
-        BOOL nubValuesValid = areValidNubValues(buffer+1);
-        
-        // Left NUB
-        if(nubValuesValid)
+        if(areValidNubValues(buffer+1))
         {
+            // Left NUB
             // Store Y in upper 8 bytes
             int nubValue = 0;
             nubValue = (buffer[2]<<8)|buffer[1];
             [ButtonStates setState:NUB_LEFT value:nubValue];
 
-            // Right NUB
-            nubValuesValid = areValidNubValues(buffer+3);
-            if(nubValuesValid)
-            {
-                int nubValue = (buffer[4]<<8)|buffer[3];
-                [ButtonStates setState:NUB_RIGHT value:nubValue];
+            // Right NUB   
+            nubValue = (buffer[4]<<8)|buffer[3];
+            [ButtonStates setState:NUB_RIGHT value:nubValue];
 
-                for(int i=5; i<pos; i++) buffer[i-5] = buffer[i];
-                
-                pos -= 5;
-            }
+            for(int i=5; i<pos; i++) buffer[i-5] = buffer[i];
+            
+            pos -= 5;
         }
-        
-        if(!nubValuesValid)
+        else
         {
             // We don't have 4 clean values, so skip ahead to the next valid marker
             for(int i=1; i<pos; i++)
@@ -124,16 +120,25 @@ BOOL areValidNubValues(char* _vals)
     }
     
     // the next valid char _must_ be a valid marker.  If not, sync up to one
-    if(buffer[0] != 'm' && buffer[0] != 'w')
+    if(pos > 0 && (buffer[0] != 'm' && buffer[0] != 'w'))
     {
+        BOOL found = NO;
         for(int i=1; i<pos; i++)
         {
             if(buffer[i] == 'm' || buffer[i] == 'w')
             {
                 for(int j=i; j<pos; j++) buffer[j-i] = buffer[j];                    
                 pos -= i;
+                found = YES;
                 break;
             }
+        }
+        
+        // hmm.. no valid tag found.  Nuke it all
+        if(!found)
+        {
+            NSLog(@"WARNING: No valid markers found. Dumping current character stack");
+            pos = 0;
         }
     }
 
