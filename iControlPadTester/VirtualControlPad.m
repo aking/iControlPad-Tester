@@ -13,7 +13,7 @@
 
 //                      0    1   2    3    4    5    6    7    8    9    10   11   12   13
 static int xlocs[]   = {30,  80, 120, 80,  180, 260, 300, 350, 400, 350, -50, 430, 195, 285};
-static int ylocs[]   = {120, 70, 120, 160, 60,  60,  120, 70,  120, 170, 250, 250, 210, 210};
+static int ylocs[]   = {100, 50, 100, 140, 40,  40,  100, 50,  100, 150, 250, 250, 200, 200};
 static int widths[]  = {60,  50, 60,  50,  50,  50,  50,  50,  50,  50,  100, 100, 10,  10};
 static int heights[] = {50,  60, 50,  60,  20,  20,  50,  50,  50,  50,  100, 100, 10,  10};
 
@@ -21,7 +21,7 @@ static int heights[] = {50,  60, 50,  60,  20,  20,  50,  50,  50,  50,  100, 10
 - (void) drawRect:(CGRect)rect
 {
     CGRect buttonRect;
-    CGRect textRect = CGRectMake(0, 250, 480, 100);
+    CGRect textRect = CGRectMake(0, 248, 480, 100);
     CGContextRef contextRef = UIGraphicsGetCurrentContext();
     
     UIFont *buttonFont = [UIFont fontWithName:@"Helvetica" size:26];
@@ -123,5 +123,7 @@ static int heights[] = {50,  60, 50,  60,  20,  20,  50,  50,  50,  50,  100, 10
     [@"Brought to you by Infinite Sands" drawInRect:textRect withFont:startFont lineBreakMode:UILineBreakModeClip alignment:UITextAlignmentCenter];
     textRect = CGRectOffset(textRect, 0.0, 8);
     [@"http://www.infinitesands.com" drawInRect:textRect withFont:startFont lineBreakMode:UILineBreakModeClip alignment:UITextAlignmentCenter];
+    textRect = CGRectOffset(textRect, 0.0, 8);
+    [@"Nub support by Adam King" drawInRect:textRect withFont:startFont lineBreakMode:UILineBreakModeClip alignment:UITextAlignmentCenter];
 }
 @end
