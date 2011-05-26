@@ -3,6 +3,7 @@
 //  TextEditing
 //
 //  Created by Infinite Sands on 3/25/11.
+//  Modified by Adam King (adding NUB controls)
 //
 
 #import <Foundation/Foundation.h>
@@ -27,7 +28,6 @@
 
 @interface ButtonStates : NSObject 
 {
-    
 }
 
 + (void) reset;

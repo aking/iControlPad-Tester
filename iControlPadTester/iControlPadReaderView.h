@@ -7,9 +7,9 @@
 
 #import <UIKit/UIKit.h>   
 
-@interface iControlPadReaderView : UIView <UIKeyInput> 
+@interface iControlPadReaderView : UIView <UITextFieldDelegate> 
 { 
-    UIView *inputView;
+    UITextField *textField;
 }  
 
 @end

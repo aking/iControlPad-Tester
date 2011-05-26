@@ -3,6 +3,7 @@
 //  TextEditing
 //
 //  Created by Infinite Sands on 3/25/11.
+//  Modified by Adam King (adding NUB controls)
 //
 
 #import "ButtonStates.h"
@@ -137,7 +138,11 @@ BOOL areValidNubValues(char* _vals)
         // hmm.. no valid tag found.  Nuke it all
         if(!found)
         {
-            NSLog(@"WARNING: No valid markers found. Dumping current character stack");
+            NSLog(@"WARNING: No valid markers found. Dumping current character stack:%d", pos);
+            for(int i=0; i<pos; i++)
+            {
+                NSLog(@"%d ", buffer[i]);
+            }
             pos = 0;
         }
     }

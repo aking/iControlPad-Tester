@@ -11,11 +11,11 @@
 
 @implementation VirtualControlPad
 
-//                      1    2   3    4    5    6    7    8    9    10   11   12   13   14
-static int xlocs[]   = {30,  80, 120, 80,  180, 250, 300, 350, 400, 350, -50, 430, 170, 260};
-static int ylocs[]   = {120, 70, 120, 160, 60,  60,  120, 70,  120, 170, 250, 250, 190, 190};
-static int widths[]  = {60,  50, 60,  50,  50,  50,  50,  50,  50,  50,  100, 100, 50,  50};
-static int heights[] = {50,  60, 50,  60,  20,  20,  50,  50,  50,  50,  100, 100, 50,  50};
+//                      0    1   2    3    4    5    6    7    8    9    10   11   12   13
+static int xlocs[]   = {30,  80, 120, 80,  180, 260, 300, 350, 400, 350, -50, 430, 195, 285};
+static int ylocs[]   = {120, 70, 120, 160, 60,  60,  120, 70,  120, 170, 250, 250, 210, 210};
+static int widths[]  = {60,  50, 60,  50,  50,  50,  50,  50,  50,  50,  100, 100, 10,  10};
+static int heights[] = {50,  60, 50,  60,  20,  20,  50,  50,  50,  50,  100, 100, 10,  10};
 
 
 - (void) drawRect:(CGRect)rect
@@ -46,37 +46,21 @@ static int heights[] = {50,  60, 50,  60,  20,  20,  50,  50,  50,  50,  100, 10
         CGContextSetRGBFillColor(contextRef, 0, 0, 1.0, 1.0);
         CGContextSetRGBStrokeColor(contextRef, 0, 0, 1.0, 1.0);
         
-        if([ButtonStates getState:i]) CGContextFillEllipseInRect(contextRef, buttonRect);
-        else CGContextStrokeEllipseInRect(contextRef, buttonRect);
+        if([ButtonStates getState:i])
+            CGContextFillEllipseInRect(contextRef, buttonRect);
+        else 
+            CGContextStrokeEllipseInRect(contextRef, buttonRect);
         
-        
-        if(i > 11)
+        if(i == NUB_LEFT || i == NUB_RIGHT)
         {
-            buttonRect = CGRectOffset(buttonRect, buttonRect.size.width/3, buttonRect.size.height/4-4);
-
             int val = [ButtonStates getState:i];
             int x = (val&0xff)-64;
             int y = ((val&0xff00)>>8)-64;
            // NSLog(@"%d %d", x, y);
 
-            buttonRect = CGRectMake(xlocs[i]+x, ylocs[i]+y, widths[i], heights[i]);
-            
- //           CGContextFillEllipseInRect(contextRef, buttonRect);
-                        
-            if(x||y) CGContextFillEllipseInRect(contextRef, buttonRect);
-            else CGContextStrokeEllipseInRect(contextRef, buttonRect);
-            
-/*            if(x||y)
-            {
-                CGContextSetRGBFillColor(contextRef, 0, 0, 0, 1.0);
-                CGContextSetRGBStrokeColor(contextRef, 0, 0, 0, 1.0);
-            }
-            else
-            {
-                CGContextSetRGBFillColor(contextRef, 1.0, 1.0, 1.0, 1.0);
-                CGContextSetRGBStrokeColor(contextRef, 1.0, 1.0, 1.0, 1.0);
-            }
-  */      }
+            buttonRect = CGRectMake(xlocs[i]+x-21, ylocs[i]+y-21, 50, 50);            
+            CGContextStrokeEllipseInRect(contextRef, buttonRect);
+        }
         else if(i > 9)
         {
             if(i > 10) buttonRect = CGRectOffset(buttonRect, buttonRect.size.width/4, buttonRect.size.height/4-4);

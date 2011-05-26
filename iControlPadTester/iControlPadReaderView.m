@@ -13,7 +13,14 @@
 - (id)initWithFrame:(CGRect)frame 
 {
     self = [super initWithFrame:frame];
-    inputView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 1, 1)];
+    
+    // Place the text field slightly offscreen (to hide the cursor)
+    textField = [[UITextField alloc] initWithFrame:CGRectMake(-5, 10, 50, 10)];
+    [textField setDelegate:self];
+    [self addSubview:textField];
+    [textField setAutocorrectionType:UITextAutocorrectionTypeNo];
+    [textField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
+    [textField becomeFirstResponder];
     
     [ButtonStates reset];
 
@@ -22,42 +29,23 @@
 
 - (BOOL)canBecomeFirstResponder 
 { 
-    return YES; 
+    return NO; 
 }
 
-// FIX ME: Is this necessary?
-/*
--(void) touchesBegan: (NSSet *) touches withEvent: (UIEvent *) event 
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
-    [self becomeFirstResponder];
-} 
-*/
-- (UIView*) inputView
-{
-    return inputView;
-}
-
-#pragma mark -
-#pragma mark UIKeyInput Protocol Methods
-
-- (BOOL)hasText 
-{
-    return NO;
-}
-
-- (void)insertText:(NSString *)text 
-{
-    for(int i=0; i<[text length]; i++)
+    //NSLog(@"textField:%@", string);
+    for(int i=0; i<[string length]; i++)
     {
-        [ButtonStates handle:[text characterAtIndex:i]];
+        [ButtonStates handle:[string characterAtIndex:i]];
     }
-
+    
+    if([string length] > 1)
+        NSLog(@"LONG STRING:%d %@", [string length], string);
+    
     [self setNeedsDisplay];
-}
 
-- (void)deleteBackward 
-{
-    // This space intentionally left blank to complete protocol. Woot.
+    return NO;
 }
 
 @end
