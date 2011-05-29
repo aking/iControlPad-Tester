@@ -44,8 +44,15 @@ static int pos = 0;
 BOOL areValidNubValues(char* _vals)
 {
     for(int i=0; i<4; i++)
+    {
         if(_vals[i] < 0 || _vals[i] > 96)
-            return NO;
+        {
+            if(_vals[i] == 97)  // 'Bug' in BT module can't pass 96, so uses 97 instead.
+                _vals[i] = 96;  // Convert the 97 to a 96 and continue.
+            else
+                return NO;
+        }
+    }
     
     return YES;
 }
